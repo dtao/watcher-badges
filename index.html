@@ -1,0 +1,60 @@
+<!doctype html>
+<html ng-app="WB">
+
+<head>
+  <title>Watcher Badges</title>
+  <link rel="stylesheet" href="lib/paper.min.css" />
+  <link rel="stylesheet" href="app.css" />
+  <script src="lib/angular.min.js"></script>
+  <script src="watcher_badges.js"></script>
+  <script src="app.js"></script>
+</head>
+
+<body watcher-badges ng-controller="MainController as ctrl">
+  <main class="container">
+    <header class="page-header">
+      <h1>Watcher Badges</h1>
+      <p class="lead">
+        Click <button class="btn btn-info" ng-click="ctrl.countWatches()">here</button> to start.
+      </p>
+    </header>
+
+    <form ng-submit="ctrl.create()">
+      <fieldset>
+        <legend>Enter a TODO item</legend>
+        <div class="form-group">
+          <input type="text" ng-model="ctrl.description" class="form-control" />
+        </div>
+        <div class="form-group">
+          <input type="submit" class="btn btn-primary" value="Create" />
+        </div>
+      </fieldset>
+    </form>
+
+    <p><button class="btn btn-danger" ng-click="ctrl.createMany()">Or just create 100 items</button></p>
+
+    <div class="row">
+      <div class="col-md-6">
+        <h3>TODO</h3>
+
+        <ul class="list-group">
+          <li class="list-group-item" ng-repeat="todo in ctrl.todos | filter:{finished:false}">
+            <a ng-click="todo.toggle()">{{$index + 1}}: {{todo.description}}</a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="col-md-6">
+        <h3>Completed</h3>
+
+        <ul class="list-group">
+          <li class="list-group-item" ng-repeat="todo in ctrl.todos | filter:{finished:true}">
+            <a ng-click="todo.toggle()">{{$index + 1}}: {{todo.description}}</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </main>
+</body>
+
+</html>
