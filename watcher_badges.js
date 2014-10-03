@@ -33,6 +33,7 @@
         'line-height': '20px',
         'padding': '0 0.5em',
         'box-sizing': 'border-box',
+        'z-index': 1000,
 
         // Style and appearance
         'background-color': 'rgba(0, 0, 0, 0.75)',
