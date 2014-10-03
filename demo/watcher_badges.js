@@ -1,0 +1,1 @@
+../watcher_badges.js

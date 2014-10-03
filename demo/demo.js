@@ -1,6 +1,6 @@
-var WB = angular.module('WB', ['watcherBadges']);
+var Demo = angular.module('Demo', ['watcherBadges']);
 
-function MainController($scope) {
+function DemoController($scope) {
   /** @private {!angular.Scope} */
   this.scope_ = $scope;
 
@@ -11,28 +11,28 @@ function MainController($scope) {
   this.todos = [];
 }
 
-MainController.prototype.countWatches = function() {
+DemoController.prototype.countWatches = function() {
   this.scope_.$broadcast('count-watches');
 };
 
-MainController.prototype.clearWatches = function() {
+DemoController.prototype.clearWatches = function() {
   this.scope_.$broadcast('clear-watches');
 };
 
-MainController.prototype.create = function() {
+DemoController.prototype.create = function() {
   if (this.description) {
     this.todos.push(new Todo(this.description));
     this.description = '';
   }
 };
 
-MainController.prototype.createMany = function() {
+DemoController.prototype.createMany = function() {
   for (var i = 0; i < 100; ++i) {
     this.todos.push(new Todo(this.randomDescription_()));
   }
 };
 
-MainController.prototype.randomDescription_ = function() {
+DemoController.prototype.randomDescription_ = function() {
   var description = '';
   while (description.length < 25) {
     description += String.fromCharCode('a'.charCodeAt(0) + Math.floor(Math.random() * 26));
@@ -52,4 +52,4 @@ Todo.prototype.toggle = function() {
   this.finished = !this.finished;
 };
 
-WB.controller('MainController', MainController);
+Demo.controller('DemoController', DemoController);
