@@ -20,6 +20,7 @@
       }
 
       var styleElement = document.createElement('STYLE');
+      styleElement.id = 'watcher-badge-stylesheet';
       document.head.appendChild(styleElement);
 
       var stylesheet = styleElement.sheet;
