@@ -6,10 +6,15 @@
     return {
       restrict: 'A',
       link: function(scope, element, attr) {
-        scope.$on('count-watchers', function() {
-          createWatcherBadgeStylesheet();
+        createWatcherBadgeStylesheet();
+
+        scope.$on('count-watches', function() {
           clearExistingWatcherBadges();
           countWatchersForElement(element[0]);
+        });
+
+        scope.$on('clear-watches', function() {
+          clearExistingWatcherBadges();
         });
       }
     };

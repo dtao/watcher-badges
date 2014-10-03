@@ -12,7 +12,11 @@ function MainController($scope) {
 }
 
 MainController.prototype.countWatches = function() {
-  this.scope_.$broadcast('count-watchers');
+  this.scope_.$broadcast('count-watches');
+};
+
+MainController.prototype.clearWatches = function() {
+  this.scope_.$broadcast('clear-watches');
 };
 
 MainController.prototype.create = function() {

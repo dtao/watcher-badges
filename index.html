@@ -15,7 +15,8 @@
     <header class="page-header">
       <h1>Watcher Badges</h1>
       <p class="lead">
-        Click <button class="btn btn-info" ng-click="ctrl.countWatches()">here</button> to start.
+        Click <button class="btn btn-sm btn-info" ng-click="ctrl.countWatches()">here</button> to start, or
+        <button class="btn btn-sm btn-danger" ng-click="ctrl.clearWatches()">here</button> to clear.
       </p>
     </header>
 
@@ -31,7 +32,7 @@
       </fieldset>
     </form>
 
-    <p><button class="btn btn-danger" ng-click="ctrl.createMany()">Or just create 100 items</button></p>
+    <p><button class="btn btn-primary" ng-click="ctrl.createMany()">Or just create 100 items</button></p>
 
     <div class="row">
       <div class="col-md-6">
