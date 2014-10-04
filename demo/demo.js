@@ -1,14 +1,25 @@
-var Demo = angular.module('Demo', ['watcherBadges']);
+var Demo = angular.module('Demo', ['wu.masonry', 'watcherBadges']);
 
-function DemoController($scope) {
+function DemoController($scope, $http) {
   /** @private {!angular.Scope} */
   this.scope_ = $scope;
 
-  /** @type {string} */
-  this.description = '';
+  /** @private {!angular.$http} */
+  this.http_ = $http;
 
-  /** @type {!Array.<!Todo>} */
-  this.todos = [];
+  /** @type {string} */
+  this.query = '';
+
+  /** @type {!Array.<!Artist>} */
+  this.artists = [];
+
+  this.lookupArtists([
+    'Coldplay',
+    'Radiohead',
+    'Flaming Lips',
+    'Arcade Fire',
+    'Beck'
+  ]);
 }
 
 DemoController.prototype.countWatches = function() {
@@ -19,37 +30,85 @@ DemoController.prototype.clearWatches = function() {
   this.scope_.$broadcast('clear-watches');
 };
 
-DemoController.prototype.create = function() {
-  if (this.description) {
-    this.todos.push(new Todo(this.description));
-    this.description = '';
+DemoController.prototype.search = function() {
+  if (this.query) {
+    this.lookupArtist(this.query);
+    this.query = '';
   }
 };
 
-DemoController.prototype.createMany = function() {
-  for (var i = 0; i < 100; ++i) {
-    this.todos.push(new Todo(this.randomDescription_()));
+DemoController.prototype.lookupArtist = function(name) {
+  var requestData = {
+    api_key: 'S8DDUO8ALSLUMYHEK',
+    format: 'json',
+    name: name,
+    results: 1,
+    bucket: ['biographies', 'images', 'urls']
+  };
+
+  var artists = this.artists;
+  this.http_.get(this.createSearchUrl_(requestData)).success(function(response) {
+    var artistData = response.response.artists[0];
+    artists.push(new Artist(artistData));
+  });
+};
+
+DemoController.prototype.lookupArtists = function(names) {
+  for (var i = 0; i < names.length; ++i) {
+    this.lookupArtist(names[i]);
   }
 };
 
-DemoController.prototype.randomDescription_ = function() {
-  var description = '';
-  while (description.length < 25) {
-    description += String.fromCharCode('a'.charCodeAt(0) + Math.floor(Math.random() * 26));
+DemoController.prototype.createSearchUrl_ = function(data) {
+  var query = [];
+  for (var key in data) {
+    this.appendQueryParam_(query, key, data[key]);
   }
-  return description;
+  return 'http://developer.echonest.com/api/v4/artist/search?' + query.join('&');
 };
 
-function Todo(description) {
+DemoController.prototype.appendQueryParam_ = function(query, key, value) {
+  if (value instanceof Array) {
+    for (var i = 0; i < value.length; ++i) {
+      this.appendQueryParam_(query, key, value[i]);
+    }
+  } else {
+    query.push(encodeURIComponent(key) + '=' + encodeURIComponent(value));
+  }
+};
+
+function Artist(data) {
   /** @type {string} */
-  this.description = description;
+  this.name = data.name;
 
-  /** @type {boolean} */
-  this.finished = false;
+  /**
+   * @type {{
+   *   text: string,
+   *   readMoreLink: string
+   * }}
+   */
+  this.biography = this.findBiography_(data.biographies);
+
+  /** @type {string} */
+  this.imageUrl = data.images[0].url;
+
+  /** @type {string} */
+  this.artistUrl = data.urls.official_url;
 }
 
-Todo.prototype.toggle = function() {
-  this.finished = !this.finished;
+Artist.prototype.findBiography_ = function(biographies) {
+  var biography = biographies[0];
+  for (var i = 0; i < biographies.length; ++i) {
+    if (biographies[i].site === 'wikipedia') {
+      biography = biographies[i];
+      break;
+    }
+  }
+
+  return {
+    text: biography.text,
+    readMoreLink: biography.url
+  };
 };
 
 Demo.controller('DemoController', DemoController);

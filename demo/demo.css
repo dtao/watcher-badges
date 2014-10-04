@@ -1,3 +1,20 @@
 a {
   cursor: pointer;
 }
+
+.thumbnail {
+  text-align: center;
+}
+
+.thumbnail .image {
+  height: 200px;
+  background-position: 50% 50%;
+  background-size: cover;
+}
+
+.thumbnail p.biography {
+  position: relative;
+  max-height: 100px;
+  overflow: auto;
+  text-align: left;
+}
