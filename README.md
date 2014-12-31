@@ -9,4 +9,8 @@ events:
   how many watchers each element has
 - `'clear-watches'`: Clears away all the badges installed from the `'count-watches'` event
 
+Here's what the result looks like:
+
+![watcher-badges screenshot](http://danieltao.com/watcher-badges/screenshot.png)
+
 Demo [here](http://danieltao.com/watcher-badges/).
