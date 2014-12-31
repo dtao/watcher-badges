@@ -8,3 +8,5 @@ events:
 - `'count-watches'`: Iterates over the DOM under the directive and adds a little "badge" indicating
   how many watchers each element has
 - `'clear-watches'`: Clears away all the badges installed from the `'count-watches'` event
+
+Demo [here](http://danieltao.com/watcher-badges/).
