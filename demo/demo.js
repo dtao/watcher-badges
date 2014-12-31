@@ -13,6 +13,9 @@ function DemoController($scope, $http) {
   /** @type {!Array.<!Artist>} */
   this.artists = [];
 
+  /** @type {?Artist} */
+  this.currentArtist = null;
+
   this.lookupArtists([
     'Coldplay',
     'Radiohead',
@@ -57,6 +60,10 @@ DemoController.prototype.lookupArtists = function(names) {
   for (var i = 0; i < names.length; ++i) {
     this.lookupArtist(names[i]);
   }
+};
+
+DemoController.prototype.selectArtist = function(artist) {
+  this.currentArtist = artist;
 };
 
 DemoController.prototype.createSearchUrl_ = function(data) {

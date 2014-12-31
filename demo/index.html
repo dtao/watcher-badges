@@ -3,12 +3,12 @@
 
 <head>
   <title>Watcher Badges</title>
-  <!-- <link rel="stylesheet" href="lib/paper.min.css" /> -->
-  <!-- <script src="lib/angular.min.js"></script> -->
-  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootswatch/3.2.0/paper/bootstrap.min.css" />
+  <link rel="stylesheet" href="lib/paper.min.css" />
+  <script src="lib/angular.min.js"></script>
+  <!-- <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootswatch/3.2.0/paper/bootstrap.min.css" /> -->
   <link rel="stylesheet" href="demo.css" />
   <script src="http://code.jquery.com/jquery-2.1.1.js"></script>
-  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+  <!-- <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script> -->
   <script src="http://imagesloaded.desandro.com/imagesloaded.pkgd.js"></script>
   <script src="http://masonry.desandro.com/masonry.pkgd.js"></script>
   <script src="http://passy.github.io/angular-masonry/angular-masonry.js"></script>
@@ -17,12 +17,12 @@
 </head>
 
 <body watcher-badges ng-controller="DemoController as ctrl">
-  <main class="container">
-    <header class="page-header">
-      <h1>Watcher Badges</h1>
-      <p class="lead">
-        Click <button class="btn btn-sm btn-info" ng-click="ctrl.countWatches()">here</button> to start, or
-        <button class="btn btn-sm btn-danger" ng-click="ctrl.clearWatches()">here</button> to clear.
+  <div id="sidebar">
+    <header>
+      <p class="lead">Watcher Badges</p>
+      <p>
+        <button class="btn btn-xs btn-info" ng-click="ctrl.countWatches()">Count watchers</button>
+        <button class="btn btn-xs btn-danger" ng-click="ctrl.clearWatches()">Clear</button>
       </p>
     </header>
 
@@ -37,18 +37,30 @@
         </div>
       </fieldset>
     </form>
+  </div>
 
-    <div masonry class="row">
-      <div class="masonry-brick col-md-3" ng-repeat="artist in ctrl.artists">
-        <div class="thumbnail">
-          <div class="image" style="background-image: url({{artist.imageUrl}})" title="{{artist.name}}"></div>
-          <div class="caption">
-            <h3><a href="{{artist.artistUrl}}" ng-bind="artist.name"></a></h3>
-            <p class="biography" ng-bind="artist.biography.text"></p>
-            <p><small><a href="{{artist.biography.readMoreLink}}" target="_blank">read more</a></small></p>
+  <main id="main">
+    <div class="row">
+
+      <!-- Artist thumbnail images -->
+      <div class="col-md-6">
+        <div masonry class="row">
+          <div class="masonry-brick col-md-4" ng-repeat="artist in ctrl.artists">
+            <div class="thumbnail" ng-click="ctrl.selectArtist(artist)">
+              <div class="image" style="background-image: url({{artist.imageUrl}})" title="{{artist.name}}"></div>
+              <div class="name" ng-bind="artist.name"></div>
+            </div>
           </div>
         </div>
       </div>
+
+      <!-- Artist biography -->
+      <div class="col-md-6" ng-if="ctrl.currentArtist">
+        <h1><a href="{{ctrl.currentArtist.artistUrl}}" ng-bind="ctrl.currentArtist.name"></a></h1>
+        <p class="biography" ng-bind="ctrl.currentArtist.biography.text"></p>
+        <p><small><a href="{{ctrl.currentArtist.biography.readMoreLink}}" target="_blank">read more</a></small></p>
+      </div>
+
     </div>
   </main>
 </body>
